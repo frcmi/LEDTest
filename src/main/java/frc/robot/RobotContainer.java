@@ -9,6 +9,8 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDControllerSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.SensorUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -29,8 +31,19 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+  // Sensor Initialization
+  DigitalInput limitSwitch = new DigitalInput(0); //<---- Placeholder
+  DigitalInput beamBreak = new DigitalInput(1); //<---- Placeholder
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Sensors Activation
+    if (limitSwitch.get()) {
+      m_ledSubsystem.yellowLEDCommand();
+    }
+    if (beamBreak.get()) {
+      m_ledSubsystem.purpleLEDCommand();
+    }
     // Configure the trigger bindings
     configureBindings();
   }
