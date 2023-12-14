@@ -32,18 +32,13 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   // Sensor Initialization
-  DigitalInput limitSwitch = new DigitalInput(0); //<---- Placeholder
-  DigitalInput beamBreak = new DigitalInput(1); //<---- Placeholder
+  public final DigitalInput limitSwitch = new DigitalInput(0); //<---- To Change
+  public final DigitalInput beamBreak = new DigitalInput(1); //<---- To Change
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Sensors Activation
-    if (limitSwitch.get()) {
-      m_ledSubsystem.yellowLEDCommand();
-    }
-    if (beamBreak.get()) {
-      m_ledSubsystem.purpleLEDCommand();
-    }
+
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -58,6 +53,15 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    new Trigger(limitSwitch::get) 
+      .onTrue(m_ledSubsystem.yellowLEDCommand())
+      .onFalse(m_ledSubsystem.purpleLEDCommand());
+
+    new Trigger(beamBreak::get)
+      .onTrue(m_ledSubsystem.yellowLEDCommand())
+      .onFalse(m_ledSubsystem.purpleLEDCommand());
+      
     m_driverController.povRight()
       .onTrue(m_ledSubsystem.toggleLEDCommand());
     m_driverController.povLeft()
